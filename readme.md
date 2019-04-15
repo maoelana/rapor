@@ -9,13 +9,13 @@
 
 ## Setting Rapor
 
-git clone https://github.com/maoelana/rapor.git
-cd rapor
-composer install --prefer-dist //membuat folder vendor
-cp .env.example .env
-sesuaikan konfigurasi database pada file .env dengan pengaturan di local
-buat database: rapor
-php artisan migrate
-npm install //membuat folder node_modules
-php artisan key:generate
-klik menu register untuk buat username password lalu login
+- git clone https://github.com/maoelana/rapor.git
+- cd rapor
+- composer install --prefer-dist //membuat folder vendor
+- cp .env.example .env
+- sesuaikan konfigurasi database pada file .env dengan pengaturan di local
+- buat database: rapor
+- php artisan migrate
+- npm install //membuat folder node_modules
+- php artisan key:generate
+- klik menu register untuk buat username password lalu login
