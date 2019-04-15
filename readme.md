@@ -18,4 +18,5 @@
 - php artisan migrate
 - npm install //membuat folder node_modules
 - php artisan key:generate
+- php artisan serve
 - klik menu register untuk buat username password lalu login
