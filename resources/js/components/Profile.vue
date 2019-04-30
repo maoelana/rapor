@@ -2,7 +2,7 @@
 .widget-user-header {
     background-position: center center;
     background-size: cover;
-    height:250px !important;
+    
 }
 </style>
 
@@ -18,7 +18,7 @@
                         <h5 class="widget-user-desc">Web Designer</h5>
                     </div>
                     <div class="widget-user-image">
-                        <img class="img-circle" src="" alt="User Avatar">
+                        <img class="img-circle" src="/img/man.png" alt="User Avatar">
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -69,14 +69,14 @@
                                         <label for="inputName" class="col-sm-2 control-label">Name</label>
 
                                         <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        <input v-model="form.name" type="text" class="form-control" id="inputName" placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                                         <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        <input v-model="form.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -90,11 +90,11 @@
                                         <label for="inputPhoto" class="col-sm-2 control-label">Profile Photo</label>
 
                                         <div class="col-sm-10">
-                                        <input type="file" id="inputPhoto" placeholder="Photo">
+                                        <input type="file" @change="updateProfile" name="photo" class="form-input">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPassword" class="col-sm-10 control-label">Password (leave empty if not changing)</label>
+                                        <label for="inputPassword" class="col-sm-12 control-label">Password (leave empty if not changing)</label>
 
                                         <div class="col-sm-10">
                                         <input type="password" class="form-control" id="inputPassword" placeholder="Password">
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-success">Update</button>
+                                        <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                                         </div>
                                     </div>
                                 </form>
@@ -119,8 +119,51 @@
 
 <script>
     export default {
+        data() {
+            return {
+                    form: new Form({
+                    id: "",
+                    name: "",
+                    email: "",
+                    password: "",
+                    type: "",
+                    bio: "",
+                    photo: ""
+                })
+            }
+        },
+
         mounted() {
             console.log('Component mounted.')
+        },
+
+        methods: {
+            updateInfo() {
+                this.form.put('api/profile')
+                .then(() => {
+
+                })
+                .catch(() => {
+
+                });
+            },
+
+            updateProfile(e) {
+                // console.log('uploading');
+                let file = e.target.files[0];
+                console.log(file);
+                let reader = new FileReader();
+                reader.onloadend = (file) => {
+                    // console.log('RESULT', reader.result)
+                    this.form.photo = reader.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        },
+
+        created() {
+            axios.get("api/profile")
+            .then(({ data }) => (this.form.fill(data)));
         }
     }
 </script>
